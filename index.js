@@ -10,11 +10,11 @@ partials: [ User, Message, GuildMember, ThreadMember]
 
 client.config = require("./config.json"); 
 client.events = new Collection();
+client.commands = new Collection();
 loadEvents(client);
 
-console.log(client.config.token);
-/*
-client.login(client.config.token).then(() => {
+console.log(client.config.token)
+/*client.login(client.config.token).then(() => {
     console.log(`client logged in as ${client.user.username}`);
     client.user.setActivity(`with ${client.guilds.cache.size} guilds`);
 })
