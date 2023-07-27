@@ -7,7 +7,7 @@ async function loadEvents(client) {
 
     const Files = await loadFiles("Events");
 
-    Files.forEach((file) = {
+    Files.forEach((file) => {
         const event  = require(file);
 
         const execute = (...args) => event.execute(...args, client);
@@ -15,7 +15,7 @@ async function loadEvents(client) {
         client.events.set(event.name, execute);
 
         if(event.rest) { 
-            if(event.once) client.rest.on(event.name, execute);
+            if(event.once) client.rest.once(event.name, execute);
             else 
             client.rest.on(event.name, execute);
         } else {
@@ -23,6 +23,9 @@ async function loadEvents(client) {
             else 
             client.on(event.name, execute);
         }
-
+        table.addRow(event.name, "💕💕");
     })
+    return console.log(table.toString(), "\nLoader Events.s");
 }
+
+module.exports = { loadEvents }
