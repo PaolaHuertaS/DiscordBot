@@ -12,6 +12,7 @@
   "dependencies": {
     "ascii-table": "^0.0.9",
     "discord.js": "^14.11.0",
-    "glob": "^10.3.3"
+    "glob": "^10.3.3",
+    "mongoose": "^7.4.1"
   }
 }

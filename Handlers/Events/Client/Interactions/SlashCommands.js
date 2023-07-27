@@ -23,6 +23,15 @@ module.exports = {
             ephemeral : true 
         }); 
            //command.execute(interaction, client);
+        const subCommand = interaction.options.getSubcommand();
+        if(subCommand){
+            const subCommandFile = client.subCommand.get(`${interaction.commandName}.${subCommand}`);
+            if(!subCommandFile)
+            return interaction.reply({ 
+                content : "This command is outdated.", 
+                ephemeral : true 
+            });
+            subCommandFile.execute(interaction, client);
+        }else command.execute(interaction, client);
     }
 }
-command.execute(interaction, client);
