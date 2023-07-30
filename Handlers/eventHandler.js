@@ -1,32 +1,36 @@
-async function loadEvents(client) {
-    const { loadFiles } = require("../Functions/fileLoader.js");
-    const ascii = require("ascii-table");
-    const table = new ascii().setHeading("Events", "Status");
+const { GuildExplicitContentFilter } = require("discord.js");
+const { loadFiles } = require("../Functions/fileLoader.js");
 
-    await client.events.clear();
+    async function loadEvents(client){
+        console.time("Events Loades");
 
-    const Files = await loadFiles("Events");
+        client.events = new Map();
+        const events = new Array();
 
-    Files.forEach((file) => {
-        const event  = require(file);
+        const files = await loadFiles("Events");
 
-        const execute = (...args) => event.execute(...args, client);
+        for(const file of files){
+            try{
+                const event = require(file);
+                const execute = (...args) => event.execute(...args, client);
+                const target = event.rest ? client.rest : client;
 
-        client.events.set(event.name, execute);
+                target[event.once ? "once": "on"](event.name, execute);
+                client.events.set(event.name, execute);
 
-        if(event.rest) { 
-            if(event.once) client.rest.once(event.name, execute);
-            else 
-            client.rest.on(event.name, execute);
-        } else {
-            if(event.once) client.once(event.name, execute);
-            else 
-            client.on(event.name, execute);
+                events.push({Events: event.name, Status: "✅"});
+            }catch(error){
+                events.push({ Event: file.split("/").pop().slice(0,-3), Status: "🛑"});
+
+            }
+
         }
-        table.addRow(event.name, "💕");
-    });
-    
-    return console.log(table.toString(), "\nLoader Events.s");
-}
+        console.table(events, ["Event", "Status"]);
+        console.info("\n\x1b[36m%s\x1b[0m","Loaded Events");
+        console.timeEnd("Events Loaded");
+
+    }
+
+  
 
 module.exports = { loadEvents }
