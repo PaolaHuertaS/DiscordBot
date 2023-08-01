@@ -21,9 +21,8 @@ loadEvents(client);
 const { loadConfig } = require("./Functions/configLoader");
 loadConfig(client);
 console.log(client.config.token);
-/*client.login(client.config.token).then(() => {
+client.login(client.config.token).then(() => {
     console.log(`client logged in as ${client.user.username}`);
     client.user.setActivity(`with ${client.guilds.cache.size} guilds`);
 })
 .catch((err) => console.log(err));
-*/

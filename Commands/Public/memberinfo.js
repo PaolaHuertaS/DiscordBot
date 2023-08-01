@@ -1,10 +1,10 @@
 const { ChatInputCommandInteraction, SlashCommandBuilder, 
-EmbedBuilder, AttachmentBuilder, Embed} = require("discord.js");
+EmbedBuilder, AttachmentBuilder} = require("discord.js");
 
 const { profileImage } = require('discord-arts');
 
 module.exports = {
-    date: new SlashCommandBuilder()
+    data: new SlashCommandBuilder()
     .setName("memberinfo")
     .setDescription("View your or any member's information")
     .setDMPermission(false)
@@ -53,17 +53,15 @@ module.exports = {
                 .setColor(member.displayColor)
                 .setDescription(`On <t:${joinTime}:D>, ${member.user.username} joined as the **${addSuffix(joinPosition)}** member of this guild `)
                 .setImage("attachment://profile.png")
-                .addFields([
-                    {name: "Badges", value: `${addBadges(userBadges).join("")}`, inline: true}, 
-                    {name: "Booster", value: `${Booster}`, inline: true},
-                    {name: "Top Roles", value: `${topRoles.join("").replace(`<@${interaction.guildId}>`)}`, inline: false},
-                    {name: "Created", value: `<t:${createdTime}:R>`, inline: true},
-                    {name: "Joined", value: `<t:${joinTime}:R>`, inline: true},
-                    {name: "Identifier", value: `${member.id}`, inline: false},
-                    {name: "Avatar", value: `[Link](${member.displayAvatarURL()})`, inline: true},
-                    {name: "Banner", value: `[Link](${(await member.user.fetch()).bannerURL()})`, inline: true},
-
-                ]);
+                // .addFields([
+                //     {name: "Booster", value: `${Booster}`, inline: true},
+                //     {name: "Top Roles", value: `${topRoles.join("").replace(`<@${interaction.guildId}>`)}`, inline: false},
+                //     {name: "Created", value: `<t:${createdTime}:R>`, inline: true},
+                //     {name: "Joined", value: `<t:${joinTime}:R>`, inline: true},
+                //     {name: "Identifier", value: `${member.id}`, inline: false},
+                //     {name: "Avatar", value: `[Link](${member.displayAvatarURL()})`, inline: true},
+                //     {name: "Banner", value: `[Link](${(await member.user.fetch()).bannerURL()})`, inline: true},
+                // ]);
                 interaction.editReply({embeds: [Embed], files: [imageAttachment]});
                 
         }catch(error){
@@ -74,8 +72,8 @@ module.exports = {
 }
 
 
-function addSufix(number){
-    if(numer % 100 >= 11 && numer % 100 <= 13 )
+function addSuffix(number){
+    if(number % 100 >= 11 && number % 100 <= 13 )
     return number + "th";
 
     switch(number % 10){
@@ -93,5 +91,5 @@ function addBadges(badgeNames){
         etc
         */
     };
-    return badgeNames.map(badgeMap => badgeMap[badgeName] || '?');
+    return badgeNames.map(badgeMap => badgeMap[badgeNames] || '?');
 }
